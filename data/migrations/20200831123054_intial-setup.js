@@ -29,6 +29,7 @@ exports.up = (knex) => {
     .createTable('budgetCategories', function (table) {
       table.integer('budgetId').references('id').inTable('budget');
       table.integer('categoryId').references('id').inTable('categories');
+      table.decimal('amount');
       table.primary(['budgetId', 'categoryId']);
     })
     .createTable('goalProgress', function (table) {
