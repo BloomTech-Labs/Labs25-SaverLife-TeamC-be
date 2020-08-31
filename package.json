@@ -48,9 +48,10 @@
     "faker": "^4.1.0",
     "helmet": "^3.23.1",
     "http-errors": "~1.6.3",
-    "knex": "^0.21.1",
+    "knex": "^0.21.5",
     "morgan": "~1.9.1",
     "pg": "^8.2.1",
+    "sqlite3": "^5.0.0",
     "swagger-jsdoc": "^4.0.0",
     "swagger-ui-express": "^4.1.4"
   },
