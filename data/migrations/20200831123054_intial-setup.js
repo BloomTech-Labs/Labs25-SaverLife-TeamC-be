@@ -24,7 +24,9 @@ exports.up = (knex) => {
     })
     .createTable('budget', function (table) {
       table.increments();
-      table.string('profileId').references('id').inTable('profiles');
+      // table.string('profileId').references('id').inTable('profiles');
+      table.string('profileId')
+
     })
     .createTable('budgetCategories', function (table) {
       table.integer('budgetId').references('id').inTable('budget');
@@ -43,9 +45,9 @@ exports.up = (knex) => {
 exports.down = (knex) => {
   return knex.schema
     .dropTableIfExists('budgetCategories')
+    .dropTableIfExists('transactions')
     .dropTableIfExists('categories')
     .dropTableIfExists('budget')
     .dropTableIfExists('goalProgress')
-    .dropTableIfExists('transactions')
     .dropTableIfExists('profiles');
 };

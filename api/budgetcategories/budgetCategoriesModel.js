@@ -1,4 +1,4 @@
-const db = require('../../config/dsConfig.js')
+const db = require('../../data/db-config')
 
 module.exports = {
     getLineById,
@@ -26,8 +26,12 @@ function getAllByBudget() {
 
 //allow a user to create a budget line
 
-function addLine() {
-    return null
+function addLine(lineData) {
+    return db('budgetCategories')
+        .insert(lineData)
+        .then(ids => {
+            return findById(ids[0])
+        })
 }
 
 //update a given line
