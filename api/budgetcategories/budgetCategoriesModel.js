@@ -1,4 +1,5 @@
 const db = require('../../data/db-config')
+const { findById } = require('../profile/profileModel')
 
 module.exports = {
     getLineById,
@@ -40,8 +41,13 @@ function addLine(lineData) {
 }
 
 //update a given line
-function updateLine() {
-    return null
+function updateLine(changes, id) {
+    return db('budget_categories')
+        .where({id})
+        .update(changes)
+        .then(id => {
+            return getLineById(id)
+        })
 }
 
 //delete a budget line 

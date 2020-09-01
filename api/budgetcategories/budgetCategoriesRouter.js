@@ -50,9 +50,25 @@ router.post('/', (req, res) => {
 
 
 // //update a given line
-// router.put('/:id', (req, res) => {
+router.put('/:id', (req, res) => {
+    const {id} = req.params;
+    const changes = req.body;
 
-// })
+    BudgetCategories.getLineById(id)
+    .then(line => {
+        if (line) {
+            BudgetCategories.updateLine(changes, id)
+            .then(ret => {
+                res.json(ret);
+            })
+        } else {
+            res.status(404).json({message: "Line not found"})
+        }
+    })
+    .catch(err => {
+        res.status(500).json({message: "Failed to update budget line", error: err})
+    });
+})
 
 // //delete a budget line 
 // router.delete('/:id', (req, res) => {
