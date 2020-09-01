@@ -23,6 +23,7 @@ const indexRouter = require('./index/indexRouter');
 const profileRouter = require('./profile/profileRouter');
 const dsRouter = require('./dsService/dsRouter');
 
+const TransactionsRouter = require('./transaction/transactionRouter');
 const app = express();
 
 process.on('unhandledRejection', (reason, p) => {
@@ -52,6 +53,7 @@ app.use('/', indexRouter);
 app.use(['/profile', '/profiles'], profileRouter);
 app.use('/data', dsRouter);
 
+app.use('/api/transactions', TransactionsRouter);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
