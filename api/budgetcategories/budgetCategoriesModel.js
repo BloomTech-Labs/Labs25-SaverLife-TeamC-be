@@ -51,6 +51,8 @@ function updateLine(changes, id) {
 }
 
 //delete a budget line 
-function deleteLine() {
-    return null
+function deleteLine(id) {
+    return db('budget_categories')
+        .where({id})
+        .del()
 }
