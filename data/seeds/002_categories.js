@@ -9,6 +9,5 @@ exports.seed = function(knex) {
       {name: 'Utilities'},
       {name: 'Entertainment'},
       {name: 'Shopping'},
-
   ]);
 };

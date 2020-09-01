@@ -30,10 +30,11 @@ router.get('/', (req, res) => {
 //allow a user to create a budget line
 router.post('/', (req, res) => {
     const lineData = req.body;
-
+    
+    // does not return the id of the newly created entry
     BudgetCategories.addLine(lineData)
     .then(id => {
-        res.status(201).json(id)
+        res.status(201).json({message: "Entry succesfully created!"});
     })
     .catch(err => {
         res.status(500).json({message: "Failed to create budget line", error: err})

@@ -14,7 +14,7 @@ module.exports = {
 
 function getLineById(id) {
     return db.select('*')
-        .from('budgetCategories')
+        .from('budget_categories')
         .where({id})
 }
 
@@ -27,10 +27,13 @@ function getAllByBudget() {
 //allow a user to create a budget line
 
 function addLine(lineData) {
-    return db('budgetCategories')
+    return db('budget_categories')
         .insert(lineData)
         .then(ids => {
-            return findById(ids[0])
+            // return getLineById(ids[0])
+            return ids
+            
+            
         })
 }
 
