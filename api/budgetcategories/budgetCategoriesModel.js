@@ -20,8 +20,10 @@ function getLineById(id) {
 
 //allow a user to read all budget lines by budget id
 
-function getAllByBudget() {
-    return null
+function getAllByBudget(budgetId) {
+    return db.select('*')
+        .from('budget_categories')
+        .where({budgetId})
 }
 
 //allow a user to create a budget line

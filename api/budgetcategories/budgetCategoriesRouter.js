@@ -13,18 +13,25 @@ router.get('/:id', (req, res) => {
     const { id } = req.params;
     BudgetCategories.getLineById(id)
         .then(ret => {
-            res.json(ret)
+            res.status(200).json(ret)
         })
         .catch(err => {
-            res.status(404).json({message: 'Could not locate by id'})
+            res.status(404).json({message: 'Could not locate by line id'})
         })
 })
 
 
 // //allow a user to read all budget lines by budget id
-// router.get('/budgets/:budgetid', (req, res) => {
-    
-// })
+router.get('/budgets/:budgetId', (req, res) => {
+    const {budgetId} = req.params;
+    BudgetCategories.getAllByBudget(budgetId)
+        .then(ret => {
+            res.status(200).json(ret)
+        })
+        .catch(err => {
+            res.status(404).json({message: 'Could not locate by budget id'})
+        })
+})
 
 
 //allow a user to create a budget line
