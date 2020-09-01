@@ -12,8 +12,10 @@ module.exports = {
 
 //allow a user to read a specific budget line
 
-function getLineById() {
-    return null
+function getLineById(id) {
+    return db.select('*')
+        .from('budgetCategories')
+        .where({id})
 }
 
 //allow a user to read all budget lines by budget id
