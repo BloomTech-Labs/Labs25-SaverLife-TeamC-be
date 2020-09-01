@@ -27,10 +27,10 @@ exports.up = (knex) => {
       table.string('profileId').references('id').inTable('profiles');
     })
     .createTable('budgetCategories', function (table) {
+      table.increments();
       table.integer('budgetId').references('id').inTable('budget');
       table.integer('categoryId').references('id').inTable('categories');
       table.decimal('amount');
-      table.primary(['budgetId', 'categoryId']);
     })
     .createTable('goalProgress', function (table) {
       table.increments();
