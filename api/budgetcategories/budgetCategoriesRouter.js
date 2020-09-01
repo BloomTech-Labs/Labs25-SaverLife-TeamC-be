@@ -8,17 +8,17 @@ router.get('/', (req, res) => {
     res.status(200).json({ message: "Try asking for the id of the budget line you would like"});
 });
 
-// //allow a user to read a specific budget line
-// router.get('/:id', (req, res) => {
-//     const { id } = req.params;
-//     BudgetCategories.getLineById(id)
-//         .then(ret => {
-//             res.json(ret)
-//         })
-//         .catch(err => {
-//             res.status(404).json({message: 'Could not locate by id'})
-//         })
-// })
+//allow a user to read a specific budget line
+router.get('/:id', (req, res) => {
+    const { id } = req.params;
+    BudgetCategories.getLineById(id)
+        .then(ret => {
+            res.json(ret)
+        })
+        .catch(err => {
+            res.status(404).json({message: 'Could not locate by id'})
+        })
+})
 
 
 // //allow a user to read all budget lines by budget id
