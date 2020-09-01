@@ -1,5 +1,4 @@
 const db = require('../../data/db-config');
-const { findById } = require('../profile/profileModel');
 
 module.exports = {
   getLineById,

@@ -16,7 +16,7 @@ router.get('/:id', (req, res) => {
     .then((ret) => {
       res.status(200).json(ret);
     })
-    .catch((err) => {
+    .catch(() => {
       res.status(404).json({ message: 'Could not locate by line id' });
     });
 });
@@ -28,7 +28,7 @@ router.get('/budgets/:budgetId', (req, res) => {
     .then((ret) => {
       res.status(200).json(ret);
     })
-    .catch((err) => {
+    .catch(() => {
       res.status(404).json({ message: 'Could not locate by budget id' });
     });
 });
@@ -39,13 +39,11 @@ router.post('/', (req, res) => {
 
   // does not return the id of the newly created entry
   BudgetCategories.addLine(lineData)
-    .then((id) => {
+    .then(() => {
       res.status(201).json({ message: 'Entry succesfully created!' });
     })
-    .catch((err) => {
-      res
-        .status(500)
-        .json({ message: 'Failed to create budget line', error: err });
+    .catch(() => {
+      res.status(500).json({ message: 'Failed to create budget line' });
     });
 });
 
@@ -64,10 +62,8 @@ router.put('/:id', (req, res) => {
         res.status(404).json({ message: 'Line not found' });
       }
     })
-    .catch((err) => {
-      res
-        .status(500)
-        .json({ message: 'Failed to update budget line'});
+    .catch(() => {
+      res.status(500).json({ message: 'Failed to update budget line' });
     });
 });
 
@@ -83,7 +79,7 @@ router.delete('/:id', (req, res) => {
         res.status(404).json({ message: 'Could not find line with given id' });
       }
     })
-    .catch((err) => {
+    .catch(() => {
       res.status(500).json({ message: 'Failed to delete scheme' });
     });
 });
