@@ -22,7 +22,7 @@ const swaggerUIOptions = {
 const indexRouter = require('./index/indexRouter');
 const profileRouter = require('./profile/profileRouter');
 const dsRouter = require('./dsService/dsRouter');
-const BudgetCategoriesRouter = require('./budgetcategories/budgetCategoriesRouter')
+const BudgetCategoriesRouter = require('./budgetcategories/budgetCategoriesRouter');
 
 const app = express();
 
@@ -53,7 +53,6 @@ app.use('/', indexRouter);
 app.use(['/profile', '/profiles'], profileRouter);
 app.use('/data', dsRouter);
 app.use('/api/budgetcategories', BudgetCategoriesRouter);
-
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
