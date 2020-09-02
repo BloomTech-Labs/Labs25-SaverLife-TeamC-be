@@ -62,16 +62,6 @@ const router = express.Router();
  *      403:
  *        $ref: '#/components/responses/UnauthorizedError'
  */
-// router.get('/', authRequired, function (req, res) {
-//   Profiles.findAll()
-//     .then((profiles) => {
-//       res.status(200).json(profiles);
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//       res.status(500).json({ message: err.message });
-//     });
-// });
 
 router.put('/:id', authRequired, function (req, res) {
   Profiles.update(req.params.id, req.body)
