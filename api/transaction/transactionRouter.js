@@ -1,21 +1,26 @@
 const express = require('express');
 const router = express.Router();
 const Transaction = require('./transactionModel');
+const { isValidTransaction } = require('./transactionService');
 
 // create transaction
 router.post('/', (req, res) => {
   const transactionData = req.body;
-  console.log('aaaaaaaaaaaaaaaa');
-  Transaction.addTransaction(transactionData)
+  if (isValidTransaction(transactionData)){
+    Transaction.addTransaction(transactionData)
     .then((transaction) => {
       res.status(201).json(transaction);
-    })
-    .catch((err) => {
+    }).catch((err) => {
       console.log(err);
       res.status(500).json({
         error: 'Failed to create new transaction',
       });
     });
+  } else {
+    res.status(400).json({
+      message: "Please provide profile id, category id, merchant, amount, and date"
+    })
+  }
 });
 
 // read transaction by given transaction id
