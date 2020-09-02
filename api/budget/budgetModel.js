@@ -24,7 +24,7 @@ function addBudget(data) {
 }
 //edit budget by id
 function updateBudgetById(changes, id) {
-    return db('budgets')
+    return db('budget')
         .where({id})
         .update(changes)
         .then((id) => {

@@ -16,23 +16,55 @@ router.get('/:id', (req, res) => {
         })
         .catch(() => {
             res.status(404).json({ message: 'Could not locate by budget id' });
-          });
+        });
 })
 
 //create a budget
 router.post('/', (req, res) => {
-    const { data } = req.body;
+    const data = req.body;
     Budget.addBudget(data)
-        .then(() => {
-            res.status(201).json({ message: 'Entry succesfully created!' })
+        .then((ret) => {
+            res.status(201).json({ return: ret, message: 'Entry succesfully created!' })
         })
         .catch(() => {
             res.status(500).json({ message: 'Failed to create budget' });
           });
 })
-//update a budget by id
 
+//update a budget by id
+router.put('/:id', (req, res) => {
+    const {id} = req.params;
+    const { data } = req.body;
+    Budget.getBudgetById(id)
+    .then((budget) => {
+      if (budget) {
+        Budget.updateBudgetById(changes, id).then((ret) => {
+          res.json(ret);
+        });
+      } else {
+        res.status(404).json({ message: 'Budget not found' });
+      }
+    })
+    .catch(() => {
+      res.status(500).json({ message: 'Failed to update budget line' });
+    });
+})
 
 //delete a budget by id
+router.delete('/:id', (req, res) => {
+    const { id } = req.params;
+  
+    Budget.deleteBudgetById(id)
+      .then((deleted) => {
+        if (deleted) {
+          res.json({ removed: deleted });
+        } else {
+          res.status(404).json({ message: 'Could not find budget with given id' });
+        }
+      })
+      .catch(() => {
+        res.status(500).json({ message: 'Failed to delete budget' });
+      });
+  });
 
 module.exports = router
