@@ -62,27 +62,23 @@ const router = express.Router();
  *      403:
  *        $ref: '#/components/responses/UnauthorizedError'
  */
-
-router.get('/:id', authRequired, function (req, res) {
-  Profiles.findById(req.params.id)
-    .then((profile) => {
-      if (profile === undefined) {
-        res.status(404).send();
-      } else {
-        res.status(200).json(profile);
-      }
-    })
-    .catch((err) => {
-      res.status(500).json({ message: 'profile not found' });
-    });
-});
+// router.get('/', authRequired, function (req, res) {
+//   Profiles.findAll()
+//     .then((profiles) => {
+//       res.status(200).json(profiles);
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//       res.status(500).json({ message: err.message });
+//     });
+// });
 
 router.put('/:id', authRequired, function (req, res) {
   Profiles.update(req.params.id, req.body)
     .then((profile) => {
       res.status(200).json(profile);
     })
-    .catch((err) => {
+    .catch(() => {
       res.status(500).json({ message: 'profile not found' });
     });
 });

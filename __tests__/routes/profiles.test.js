@@ -18,16 +18,16 @@ describe('profiles router endpoints', () => {
     jest.clearAllMocks();
   });
 
-  describe('GET /profiles', () => {
-    it('should return 200', async () => {
-      Profiles.findAll.mockResolvedValue([]);
-      const res = await request(server).get('/profiles');
+  // describe('GET /profiles', () => {
+  //   it('should return 200', async () => {
+  //     Profiles.findAll.mockResolvedValue([]);
+  //     const res = await request(server).get('/profiles');
 
-      expect(res.status).toBe(200);
-      expect(res.body.length).toBe(0);
-      expect(Profiles.findAll.mock.calls.length).toBe(1);
-    });
-  });
+  //     expect(res.status).toBe(200);
+  //     expect(res.body.length).toBe(0);
+  //     expect(Profiles.findAll.mock.calls.length).toBe(1);
+  //   });
+  // });
 
   describe('GET /profiles/:id', () => {
     it('should return 200 when profile found', async () => {
