@@ -6,20 +6,22 @@ const { isValidTransaction } = require('./transactionService');
 // create transaction
 router.post('/', (req, res) => {
   const transactionData = req.body;
-  if (isValidTransaction(transactionData)){
+  if (isValidTransaction(transactionData)) {
     Transaction.addTransaction(transactionData)
-    .then((transaction) => {
-      res.status(201).json(transaction);
-    }).catch((err) => {
-      console.log(err);
-      res.status(500).json({
-        error: 'Failed to create new transaction',
+      .then((transaction) => {
+        res.status(201).json(transaction);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json({
+          error: 'Failed to create new transaction',
+        });
       });
-    });
   } else {
     res.status(400).json({
-      message: "Please provide profile id, category id, merchant, amount, and date"
-    })
+      message:
+        'Please provide profile id, category id, merchant, amount, and date',
+    });
   }
 });
 
