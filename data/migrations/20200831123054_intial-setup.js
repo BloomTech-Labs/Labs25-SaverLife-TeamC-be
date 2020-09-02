@@ -24,13 +24,14 @@ exports.up = (knex) => {
     })
     .createTable('budget', function (table) {
       table.increments();
-      table.string('profileId').references('id').inTable('profiles');
+      // table.string('profileId').references('id').inTable('profiles');
+      table.string('profileId');
     })
-    .createTable('budgetCategories', function (table) {
+    .createTable('budget_categories', function (table) {
+      table.increments();
       table.integer('budgetId').references('id').inTable('budget');
       table.integer('categoryId').references('id').inTable('categories');
       table.decimal('amount');
-      table.primary(['budgetId', 'categoryId']);
     })
     .createTable('goalProgress', function (table) {
       table.increments();
@@ -42,10 +43,10 @@ exports.up = (knex) => {
 
 exports.down = (knex) => {
   return knex.schema
-    .dropTableIfExists('budgetCategories')
+    .dropTableIfExists('budget_categories')
+    .dropTableIfExists('transactions')
     .dropTableIfExists('categories')
     .dropTableIfExists('budget')
     .dropTableIfExists('goalProgress')
-    .dropTableIfExists('transactions')
     .dropTableIfExists('profiles');
 };
