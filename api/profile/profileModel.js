@@ -12,6 +12,10 @@ const findById = async (id) => {
   return db('profiles').where({ id }).first().select('*');
 };
 
+const findByEmail = async (email) => {
+  return db('profiles').where({ email }).first().select('*');
+};
+
 const create = async (profile) => {
   return db('profiles').insert(profile).returning('*');
 };
@@ -29,4 +33,12 @@ const remove = async (id) => {
   return await db('profiles').where({ id }).del();
 };
 
-module.exports = { findAll, findBy, findById, create, update, remove };
+module.exports = {
+  findAll,
+  findBy,
+  findById,
+  findByEmail,
+  create,
+  update,
+  remove,
+};
