@@ -21,7 +21,6 @@ const create = async (profile) => {
 };
 
 const update = (id, profile) => {
-  console.log(profile);
   return db('profiles')
     .where({ id: id })
     .first()
