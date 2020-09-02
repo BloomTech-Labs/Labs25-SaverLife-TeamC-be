@@ -15,7 +15,7 @@ function findTransactionById(id) {
 function findTransactionByProfileId(profile_id) {
   return db('transactions')
     .join('profiles', 'profiles.id', '=', 'transactions.profileId')
-    .where({ profile_id: profile_id });
+    .where({ profileId: profile_id });
 }
 
 function addTransaction(transaction) {
