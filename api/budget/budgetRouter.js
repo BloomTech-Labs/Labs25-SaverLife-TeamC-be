@@ -34,11 +34,11 @@ router.post('/', (req, res) => {
 //update a budget by id
 router.put('/:id', (req, res) => {
     const {id} = req.params;
-    const { data } = req.body;
+    const data = req.body;
     Budget.getBudgetById(id)
     .then((budget) => {
       if (budget) {
-        Budget.updateBudgetById(changes, id).then((ret) => {
+        Budget.updateBudgetById(data, id).then((ret) => {
           res.json(ret);
         });
       } else {
