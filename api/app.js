@@ -27,7 +27,6 @@ const GoalProgressRouter = require('./goalProgress/goalProgressRouter');
 
 const BudgetRouter = require('./budget/budgetRouter');
 
-
 const TransactionsRouter = require('./transaction/transactionRouter');
 
 const app = express();
@@ -63,7 +62,6 @@ app.use('/api/budgetcategories', BudgetCategoriesRouter);
 app.use('/api/budget', BudgetRouter);
 
 app.use('/api/goalprogress', GoalProgressRouter);
-
 
 app.use('/api/transactions', TransactionsRouter);
 // catch 404 and forward to error handler
