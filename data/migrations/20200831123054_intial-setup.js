@@ -24,8 +24,8 @@ exports.up = (knex) => {
     })
     .createTable('budget', function (table) {
       table.increments();
-      // table.string('profileId').references('id').inTable('profiles');
-      table.string('profileId');
+      table.string('profileId').references('id').inTable('profiles');
+      //table.string('profileId');
     })
     .createTable('budget_categories', function (table) {
       table.increments();
