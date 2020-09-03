@@ -33,7 +33,7 @@ exports.up = (knex) => {
       table.integer('categoryId').references('id').inTable('categories');
       table.decimal('amount');
     })
-    .createTable('goalProgress', function (table) {
+    .createTable('goal_progress', function (table) {
       table.increments();
       table.string('profileId').references('id').inTable('profiles');
       table.decimal('totalSaved');
@@ -47,6 +47,6 @@ exports.down = (knex) => {
     .dropTableIfExists('transactions')
     .dropTableIfExists('categories')
     .dropTableIfExists('budget')
-    .dropTableIfExists('goalProgress')
+    .dropTableIfExists('goal_progress')
     .dropTableIfExists('profiles');
 };

@@ -23,6 +23,7 @@ const indexRouter = require('./index/indexRouter');
 const profileRouter = require('./profile/profileRouter');
 const dsRouter = require('./dsService/dsRouter');
 const BudgetCategoriesRouter = require('./budgetcategories/budgetCategoriesRouter');
+const GoalProgressRouter = require('./goalProgress/goalProgressRouter');
 
 const app = express();
 
@@ -53,6 +54,7 @@ app.use('/', indexRouter);
 app.use(['/profile', '/profiles'], profileRouter);
 app.use('/data', dsRouter);
 app.use('/api/budgetcategories', BudgetCategoriesRouter);
+app.use('/api/goalprogress', GoalProgressRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
