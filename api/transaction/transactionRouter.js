@@ -42,8 +42,8 @@ router.get('/:id', (req, res) => {
 
 // find all transaction with given profile id
 router.get('/profile/:profileId', (req, res) => {
-  const { id } = req.param;
-  Transaction.listTransactionByProfileId(id)
+  const { profileId } = req.params;
+  Transaction.findTransactionByProfileId(profileId)
     .then((transactions) => {
       res.status(200).json(transactions);
     })
@@ -65,7 +65,7 @@ router.put('/:id', (req, res) => {
       if (transaction) {
         Transaction.updateTransaction(changes, id).then(
           (updatedTransaction) => {
-            res.json(updatedTransaction);
+            res.status(200).json(updatedTransaction);
           }
         );
       } else {
