@@ -5,6 +5,7 @@ module.exports = {
   addBudget,
   updateBudgetById,
   deleteBudgetById,
+  findBudgetByProfileId
 };
 
 //get budget by id
@@ -32,4 +33,9 @@ function updateBudgetById(changes, id) {
 //delete budget
 function deleteBudgetById(id) {
   return db('budget').where({ id }).del();
+};
+
+//get budget by profile id
+function findBudgetByProfileId(profile_id) {
+  return db('budget').where({ profile_id }).first();
 }
