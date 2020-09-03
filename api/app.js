@@ -23,6 +23,7 @@ const indexRouter = require('./index/indexRouter');
 const profileRouter = require('./profile/profileRouter');
 const dsRouter = require('./dsService/dsRouter');
 const BudgetCategoriesRouter = require('./budgetcategories/budgetCategoriesRouter');
+const GoalProgressRouter = require('./goalProgress/goalProgressRouter');
 
 const BudgetRouter = require('./budget/budgetRouter');
 
@@ -58,7 +59,11 @@ app.use('/', indexRouter);
 app.use(['/profile', '/profiles'], profileRouter);
 app.use('/data', dsRouter);
 app.use('/api/budgetcategories', BudgetCategoriesRouter);
+
 app.use('/api/budget', BudgetRouter);
+
+app.use('/api/goalprogress', GoalProgressRouter);
+
 
 app.use('/api/transactions', TransactionsRouter);
 // catch 404 and forward to error handler
