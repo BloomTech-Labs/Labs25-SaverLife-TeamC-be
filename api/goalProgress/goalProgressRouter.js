@@ -11,16 +11,18 @@ router.get('/', (req, res) => {
 
 // add a new goal progress
 router.post('/', (req, res) => {
-    const gp = req.body;
+  const gp = req.body;
 
-    GoalProgress.addGoalProgress(gp)
+  GoalProgress.addGoalProgress(gp)
     .then(() => {
-        res.status(201).json({ message: 'Goal Progress added successfully' })
+      res.status(201).json({ message: 'Goal Progress added successfully' });
     })
     .catch((err) => {
-        res.status(500).json({ message: 'Sorry, could not add Goal Progress', err})
-    })
-})
+      res
+        .status(500)
+        .json({ message: 'Sorry, could not add Goal Progress', err });
+    });
+});
 
 // get a specific goal progress
 router.get('/:id', (req, res) => {
@@ -67,11 +69,9 @@ router.delete('/:id', (req, res) => {
       if (deleted) {
         res.json({ removed: deleted });
       } else {
-        res
-          .status(404)
-          .json({
-            message: 'Sorry, could not find Goal Progress with that ID',
-          });
+        res.status(404).json({
+          message: 'Sorry, could not find Goal Progress with that ID',
+        });
       }
     })
     .catch(() => {

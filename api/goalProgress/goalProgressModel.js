@@ -1,5 +1,4 @@
 const db = require('../../data/db-config');
-const { get } = require('../app');
 
 module.exports = {
   getGoalProgressById,
