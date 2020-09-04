@@ -21,7 +21,6 @@ router.get('/:id', (req, res) => {
     });
 });
 
-
 //allow a user to create a category
 router.post('/', (req, res) => {
   const data = req.body;
@@ -65,7 +64,9 @@ router.delete('/:id', (req, res) => {
       if (deleted) {
         res.json({ removed: deleted });
       } else {
-        res.status(404).json({ message: 'Could not find category with given id' });
+        res
+          .status(404)
+          .json({ message: 'Could not find category with given id' });
       }
     })
     .catch(() => {

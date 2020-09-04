@@ -15,8 +15,6 @@ function getCategoryById(id) {
 
 //allow a user to read all budget lines by budget id
 
-
-
 //allow a user to create a budget line
 
 function addCategory(data) {

@@ -24,7 +24,7 @@ const profileRouter = require('./profile/profileRouter');
 const dsRouter = require('./dsService/dsRouter');
 const BudgetCategoriesRouter = require('./budgetcategories/budgetCategoriesRouter');
 const GoalProgressRouter = require('./goalProgress/goalProgressRouter');
-const CategoriesRouter = require('./categories/categoriesRouter')
+const CategoriesRouter = require('./categories/categoriesRouter');
 const TransactionsRouter = require('./transaction/transactionRouter');
 const app = express();
 
