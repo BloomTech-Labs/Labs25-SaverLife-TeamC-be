@@ -58,7 +58,7 @@ app.use('/api/budgetcategories', BudgetCategoriesRouter);
 app.use('/api/goalprogress', GoalProgressRouter);
 
 app.use('/api/transactions', TransactionsRouter);
-app.use('./api/categories', CategoriesRouter);
+app.use('/api/categories', CategoriesRouter);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
