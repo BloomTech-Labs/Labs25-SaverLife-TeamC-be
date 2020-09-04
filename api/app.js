@@ -24,8 +24,15 @@ const profileRouter = require('./profile/profileRouter');
 const dsRouter = require('./dsService/dsRouter');
 const BudgetCategoriesRouter = require('./budgetcategories/budgetCategoriesRouter');
 const GoalProgressRouter = require('./goalProgress/goalProgressRouter');
+
 const CategoriesRouter = require('./categories/categoriesRouter');
+
+
+const BudgetRouter = require('./budget/budgetRouter');
+
+
 const TransactionsRouter = require('./transaction/transactionRouter');
+
 const app = express();
 
 process.on('unhandledRejection', (reason, p) => {
@@ -55,6 +62,9 @@ app.use('/', indexRouter);
 app.use(['/profile', '/profiles'], profileRouter);
 app.use('/data', dsRouter);
 app.use('/api/budgetcategories', BudgetCategoriesRouter);
+
+app.use('/api/budget', BudgetRouter);
+
 app.use('/api/goalprogress', GoalProgressRouter);
 
 app.use('/api/transactions', TransactionsRouter);
