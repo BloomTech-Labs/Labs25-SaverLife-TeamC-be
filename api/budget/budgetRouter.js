@@ -4,7 +4,7 @@ const Budget = require('./budgetModel');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  res.json({ message: 'Please try requesting using a budget id' });
+  res.json({ message: 'Please try request using a budget id' });
 });
 
 //get a budget by id
@@ -12,10 +12,14 @@ router.get('/:id', (req, res) => {
   const { id } = req.params;
   Budget.getBudgetById(id)
     .then((ret) => {
-      res.status(200).json(ret);
+      if (ret.length > 0) {
+        res.status(200).json(ret);
+      } else {
+        res.status(404).send();
+      }
     })
     .catch(() => {
-      res.status(404).json({ message: 'Could not locate by budget id' });
+      res.status(500).send();
     });
 });
 
@@ -26,7 +30,7 @@ router.post('/', (req, res) => {
     .then((ret) => {
       res
         .status(201)
-        .json({ return: ret, message: 'Entry succesfully created!' });
+        .json({ return: ret, message: 'Entry successfully created!' });
     })
     .catch(() => {
       res.status(500).json({ message: 'Failed to create budget' });
