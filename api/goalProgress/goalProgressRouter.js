@@ -29,12 +29,16 @@ router.get('/:id', (req, res) => {
   const { id } = req.params;
   GoalProgress.getGoalProgressById(id)
     .then((goal) => {
-      res.status(200).json(goal);
+      if (goal !== undefined) {
+        return res.status(200).json(goal);
+      } else {
+        return res.status(404).json({ message: 'Sorry, no goal progress with that ID found' })
+      }
     })
-    .catch(() => {
+    .catch((err) => {
       res
-        .status(404)
-        .json({ message: 'Sorry, no goal progress with that ID found' });
+        .status(500)
+        .json({ message: err });
     });
 });
 
@@ -47,7 +51,7 @@ router.put('/:id', (req, res) => {
     .then((goal) => {
       if (goal) {
         GoalProgress.editGoalProgress(changes, id).then((edit) => {
-          res.json(edit);
+          res.status(200).json(edit);
         });
       } else {
         res.status(404).json({ message: 'Sorry, Goal Progress not found' });
@@ -67,7 +71,7 @@ router.delete('/:id', (req, res) => {
   GoalProgress.deleteGoalProgress(id)
     .then((deleted) => {
       if (deleted) {
-        res.json({ removed: deleted });
+        res.status(200).json({ removed: deleted });
       } else {
         res.status(404).json({
           message: 'Sorry, could not find Goal Progress with that ID',
