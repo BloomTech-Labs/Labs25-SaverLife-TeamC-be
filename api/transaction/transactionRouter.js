@@ -20,7 +20,7 @@ router.post('/', (req, res) => {
   } else {
     res.status(400).json({
       message:
-        'Please provide profile id, category id, merchant, amount, and date',
+        'Please provide profile id, category id, merchant, amount, and date in the correct data type',
     });
   }
 });
