@@ -5,11 +5,7 @@ const server = require('../../api/app');
 const Transaction = require('../../api/transaction/transactionModel');
 const transactionRouter = require('../../api/transaction/transactionRouter');
 
-const Profiles = require('../../api/profile/profileModel');
-const { request } = require('../../api/app');
-const { serve } = require('swagger-ui-express');
 jest.mock('../../api/transaction/transactionModel');
-jest.mock('../../api/profile/profileModel');
 
 afterEach(async () => {
   await db('transactions').truncate();
