@@ -1,14 +1,14 @@
 const express = require('express');
-
+const authRequired = require('../middleware/authRequired');
 const Budget = require('./budgetModel');
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  res.json({ message: 'Please try request using a budget id' });
+router.get('/', authRequired, (req, res) => {
+  res.json({ message: 'Please try requesting using a budget id' });
 });
 
 //get a budget by id
-router.get('/:id', (req, res) => {
+router.get('/:id', authRequired, (req, res) => {
   const { id } = req.params;
   Budget.getBudgetById(id)
     .then((ret) => {
@@ -24,7 +24,7 @@ router.get('/:id', (req, res) => {
 });
 
 //create a budget
-router.post('/', (req, res) => {
+router.post('/', authRequired, (req, res) => {
   const data = req.body;
   Budget.addBudget(data)
     .then((ret) => {
@@ -38,7 +38,7 @@ router.post('/', (req, res) => {
 });
 
 //update a budget by id
-router.put('/:id', (req, res) => {
+router.put('/:id', authRequired, (req, res) => {
   const { id } = req.params;
   const data = req.body;
   Budget.getBudgetById(id)
@@ -57,7 +57,7 @@ router.put('/:id', (req, res) => {
 });
 
 //delete a budget by id
-router.delete('/:id', (req, res) => {
+router.delete('/:id', authRequired, (req, res) => {
   const { id } = req.params;
 
   Budget.deleteBudgetById(id)
