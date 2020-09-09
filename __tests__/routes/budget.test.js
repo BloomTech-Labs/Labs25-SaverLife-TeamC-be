@@ -20,14 +20,16 @@ describe('budgets router endpoints', () => {
 
   describe('GET /budget/:id', () => {
     it('should return 200 when profile found', async () => {
-      Budgets.getBudgetById.mockResolvedValue({
-        id: 1,
-        profileId: '00ulthapbErVUwVJy4x6',
-      });
+      Budgets.getBudgetById.mockResolvedValue([
+        {
+          id: 1,
+          profileId: '00ulthapbErVUwVJy4x6',
+        },
+      ]);
       const res = await request(server).get('/budget/1');
 
       expect(res.status).toBe(200);
-      expect(res.body.profileId).toBe('00ulthapbErVUwVJy4x6');
+      expect(res.body[0].profileId).toBe('00ulthapbErVUwVJy4x6');
     });
 
     it('should return 404 when no budget is found', async () => {
