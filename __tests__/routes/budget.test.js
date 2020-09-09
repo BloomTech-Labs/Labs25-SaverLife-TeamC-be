@@ -18,7 +18,7 @@ describe('budgets router endpoints', () => {
     jest.clearAllMocks();
   });
 
-  describe('GET /budgets/:id', () => {
+  describe('GET /budget/:id', () => {
     it('should return 200 when profile found', async () => {
       Budgets.getBudgetById.mockResolvedValue({
         id: 1,
@@ -31,8 +31,8 @@ describe('budgets router endpoints', () => {
     });
 
     it('should return 404 when no budget is found', async () => {
-      Budgets.getBudgetById.mockResolvedValue();
-      const res = await request(server).get('/budgets/1');
+      Budgets.getBudgetById.mockResolvedValue([]);
+      const res = await request(server).get('/budget/1');
 
       expect(res.status).toBe(404);
     });
