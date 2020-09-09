@@ -14,13 +14,13 @@ function isValidTransaction(transaction) {
   let categoryId_is_number = typeof transaction.categoryId === 'number';
   let merchant_is_string = typeof transaction.merchant === 'string';
   let amount_is_number = typeof transaction.amount === 'number';
-  
+
   let passing = Boolean(
-    dataExist && 
-    profileId_is_string && 
-    categoryId_is_number && 
-    merchant_is_string && 
-    amount_is_number
+    dataExist &&
+      profileId_is_string &&
+      categoryId_is_number &&
+      merchant_is_string &&
+      amount_is_number
   );
 
   return passing;

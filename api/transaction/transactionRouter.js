@@ -30,7 +30,13 @@ router.get('/:id', (req, res) => {
   const { id } = req.params;
   Transaction.findTransactionById(id)
     .then((transaction) => {
-      res.status(200).json(transaction);
+      if (transaction.length > 0) {
+        res.status(200).json(transaction);
+      } else {
+        res
+          .status(404)
+          .json({ message: 'Could not find transaction with given id' });
+      }
     })
     .catch((err) => {
       console.log(err);
@@ -45,7 +51,11 @@ router.get('/profile/:profileId', (req, res) => {
   const { profileId } = req.params;
   Transaction.findTransactionByProfileId(profileId)
     .then((transactions) => {
-      res.status(200).json(transactions);
+      if (transactions.length > 0) {
+        res.status(200).json(transactions);
+      } else {
+        res.status(404).json({ message: 'Could not find user with given id' });
+      }
     })
     .catch((err) => {
       console.log(err);
@@ -86,7 +96,7 @@ router.delete('/:id', (req, res) => {
   Transaction.removeTransaction(id)
     .then((deleted) => {
       if (deleted) {
-        res.json({ removed: deleted });
+        res.status(200).json({ removed: deleted });
       } else {
         res
           .status(404)
