@@ -6,9 +6,6 @@ const Transaction = require('../../api/transaction/transactionModel');
 const transactionRouter = require('../../api/transaction/transactionRouter');
 
 jest.mock('../../api/transaction/transactionModel');
-afterEach(async () => {
-  await db('transactions').truncate();
-});
 
 describe('transactionRouter', () => {
   beforeAll(() => {
