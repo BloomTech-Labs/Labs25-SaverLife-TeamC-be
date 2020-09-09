@@ -1,5 +1,4 @@
 const supertest = require('supertest');
-const db = require('../../data/db-config');
 const server = require('../../api/app');
 
 const Transaction = require('../../api/transaction/transactionModel');
