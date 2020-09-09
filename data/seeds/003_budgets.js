@@ -5,11 +5,11 @@ exports.seed = function (knex) {
     .then(function () {
       // Inserts seed entries
       return knex('budget').insert([
-        { profileId: 1 },
-        { profileId: 2 },
-        { profileId: 3 },
-        { profileId: 4 },
-        { profileId: 5 },
+        { profileId: '00ulthapbErVUwVJy4x6' },
+        { profileId: '00ulthapbErVUwVJy4x6' },
+        { profileId: '00ulthapbErVUwVJy4x6' },
+        { profileId: '00ulthapbErVUwVJy4x6' },
+        { profileId: '00ulthapbErVUwVJy4x6' },
       ]);
     });
 };
