@@ -5,7 +5,6 @@ const router = express.Router();
 
 router.get('/', authRequired, (req, res) => {
   res.json({ message: 'Please try requesting using a budget id' });
-
 });
 
 //get a budget by id
