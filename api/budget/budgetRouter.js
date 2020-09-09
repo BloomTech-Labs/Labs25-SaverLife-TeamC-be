@@ -1,32 +1,36 @@
 const express = require('express');
-
+const authRequired = require('../middleware/authRequired');
 const Budget = require('./budgetModel');
 const router = express.Router();
 
-router.get('/', (req, res) => {
+router.get('/', authRequired, (req, res) => {
   res.json({ message: 'Please try requesting using a budget id' });
 });
 
 //get a budget by id
-router.get('/:id', (req, res) => {
+router.get('/:id', authRequired, (req, res) => {
   const { id } = req.params;
   Budget.getBudgetById(id)
     .then((ret) => {
-      res.status(200).json(ret);
+      if (ret.length > 0) {
+        res.status(200).json(ret);
+      } else {
+        res.status(404).send();
+      }
     })
     .catch(() => {
-      res.status(404).json({ message: 'Could not locate by budget id' });
+      res.status(500).send();
     });
 });
 
 //create a budget
-router.post('/', (req, res) => {
+router.post('/', authRequired, (req, res) => {
   const data = req.body;
   Budget.addBudget(data)
     .then((ret) => {
       res
         .status(201)
-        .json({ return: ret, message: 'Entry succesfully created!' });
+        .json({ return: ret, message: 'Entry successfully created!' });
     })
     .catch(() => {
       res.status(500).json({ message: 'Failed to create budget' });
@@ -34,7 +38,7 @@ router.post('/', (req, res) => {
 });
 
 //update a budget by id
-router.put('/:id', (req, res) => {
+router.put('/:id', authRequired, (req, res) => {
   const { id } = req.params;
   const data = req.body;
   Budget.getBudgetById(id)
@@ -53,7 +57,7 @@ router.put('/:id', (req, res) => {
 });
 
 //delete a budget by id
-router.delete('/:id', (req, res) => {
+router.delete('/:id', authRequired, (req, res) => {
   const { id } = req.params;
 
   Budget.deleteBudgetById(id)
