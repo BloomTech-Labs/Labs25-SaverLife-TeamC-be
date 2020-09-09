@@ -12,13 +12,6 @@ module.exports = {
       max: 10,
     },
   },
-  
-  testing:{
-    client: 'pg',
-    connection: process.env.DATABASE_URL,
-    migrations: { directory: '../data/migrations' },
-    seeds: { directory: '../data/seeds' },
-  },
 
   test: {
     client: 'pg',
