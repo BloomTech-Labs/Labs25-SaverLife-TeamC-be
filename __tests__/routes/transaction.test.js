@@ -1,15 +1,11 @@
 const supertest = require('supertest');
-const express = require('express');
-const server = express();
-server.use(express.json());
+const server = require('../../api/app');
 
 const Transaction = require('../../api/transaction/transactionModel');
 const transactionRouter = require('../../api/transaction/transactionRouter');
 
 jest.mock('../../api/transaction/transactionModel');
-jest.mock('../../api/middleware/authRequired', () =>
-  jest.fn((req, res, next) => next())
-);
+jest.mock('../../api/transaction/isProfileValid.js');
 describe('transactionRouter', () => {
   beforeAll(() => {
     server.use(['/api/transactions'], transactionRouter);
@@ -48,7 +44,7 @@ describe('transactionRouter', () => {
         merchant: 'Target',
         date: '2/3/4023',
       };
-      Transaction.findTransactionById.mockResolvedValue('00ulthapbErVUwVJy4x6');
+      Transaction.findTransactionById.mockResolvedValue(undefined);
       return supertest(server)
         .post('/api/transactions/')
         .send(transaction)
