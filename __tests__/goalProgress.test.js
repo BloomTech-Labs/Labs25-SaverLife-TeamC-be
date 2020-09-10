@@ -5,8 +5,8 @@ const goalProgressRouter = require('../api/goalProgress/goalProgressRouter');
 const server = express();
 server.use(express.json());
 
-jest.mock('../../api/goalProgress/goalProgressModel');
-jest.mock('../../api/middleware/authRequired', () =>
+jest.mock('../api/goalProgress/goalProgressModel');
+jest.mock('../api/middleware/authRequired', () =>
   jest.fn((req, res, next) => next())
 );
 
