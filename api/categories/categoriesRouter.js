@@ -1,6 +1,6 @@
 const express = require('express');
 
-const Categories = require('./CategoriesModel');
+const Categories = require('./categoriesModel.js');
 const router = express.Router();
 
 router.get('/', (req, res) => {
