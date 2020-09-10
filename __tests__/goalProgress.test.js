@@ -1,7 +1,7 @@
 const request = require('supertest');
 const express = require('express');
-const GoalProgress = require('../../api/goalProgress/goalProgressModel');
-const goalProgressRouter = require('../../api/goalProgress/goalProgressRouter');
+const GoalProgress = require('../api/goalProgress/goalProgressModel');
+const goalProgressRouter = require('../api/goalProgress/goalProgressRouter');
 const server = express();
 server.use(express.json());
 
@@ -38,7 +38,7 @@ describe('goalProgress router endpoints', () => {
   describe('GET /goalprogress/:id', () => {
     it('should return 200 when goal progress is found', async () => {
       GoalProgress.getGoalProgressById.mockResolvedValue({
-        id: 13
+        id: 13,
       });
       const res = await request(server).get('/goalprogress/13');
       expect(res.status).toBe(200);

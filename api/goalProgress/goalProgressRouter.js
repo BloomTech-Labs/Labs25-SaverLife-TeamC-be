@@ -32,13 +32,13 @@ router.get('/:id', (req, res) => {
       if (goal !== undefined) {
         return res.status(200).json(goal);
       } else {
-        return res.status(404).json({ message: 'Sorry, no goal progress with that ID found' })
+        return res
+          .status(404)
+          .json({ message: 'Sorry, no goal progress with that ID found' });
       }
     })
     .catch((err) => {
-      res
-        .status(500)
-        .json({ message: err });
+      res.status(500).json({ message: err });
     });
 });
 
