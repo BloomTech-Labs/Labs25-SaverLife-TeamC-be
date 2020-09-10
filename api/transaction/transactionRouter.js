@@ -2,18 +2,11 @@ const express = require('express');
 const router = express.Router();
 const Transaction = require('./transactionModel');
 const { isValidTransaction } = require('./transactionService');
-const Profile = require('../profile/profileModel');
+const { isProfileValid } = require('./isProfileValid');
 // create transaction
-router.post('/', (req, res) => {
+router.post('/', isProfileValid, (req, res) => {
   const transactionData = req.body;
-  const id = req.body.profileId;
-
   if (isValidTransaction(transactionData)) {
-    Profile.findById(id).then((results) => {
-      if (!results.id) {
-        return res.status(404).json({ message: 'Profile not found!' });
-      }
-    });
     Transaction.addTransaction(transactionData)
       .then((transaction) => {
         res.status(201).json(transaction);
