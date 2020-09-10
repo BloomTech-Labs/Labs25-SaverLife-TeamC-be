@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const Transaction = require('./transactionModel');
 const { isValidTransaction } = require('./transactionService');
-
+const {isProfileValid} = require('./isProfileValid')
 // create transaction
-router.post('/', (req, res) => {
+router.post('/', isProfileValid, (req, res) => {
   const transactionData = req.body;
   if (isValidTransaction(transactionData)) {
     Transaction.addTransaction(transactionData)
