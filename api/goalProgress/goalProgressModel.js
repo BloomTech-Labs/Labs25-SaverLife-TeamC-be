@@ -9,7 +9,7 @@ module.exports = {
 
 // get goal progress by id
 function getGoalProgressById(id) {
-  return db.select('*').from('goal_progress').where({ id });
+  return db('goal_progress').where({ id }).first();
 }
 
 // create a new goal progress
