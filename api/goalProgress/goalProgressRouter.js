@@ -27,7 +27,6 @@ router.post('/', (req, res) => {
 // get goal progress by profile id
 router.get('/profile/:profileId', (req,res)=>{
   const {profileId} = req.params;
-  console.log('profile id is ',profileId)
   GoalProgress.findGoalProgressByProfileId(profileId)
   .then((goalprogress)=>{
     if(goalprogress.length > 0){
