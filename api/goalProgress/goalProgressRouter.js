@@ -24,6 +24,27 @@ router.post('/', (req, res) => {
     });
 });
 
+// get goal progress by profile id
+router.get('/profile/:profileId', (req,res)=>{
+  const {profileId} = req.params;
+  console.log('profile id is ',profileId)
+  GoalProgress.findGoalProgressByProfileId(profileId)
+  .then((goalprogress)=>{
+    if(goalprogress.length > 0){
+      res.status(200).json(goalprogress);
+    } else {
+      res.status(404).json({message: 'Could not find user with given id'})
+    }
+  })
+  .catch((err) => {
+    console.log(err);
+    res.status(500).json({
+      error: err.message,
+    })
+  })
+})
+
+
 // get a specific goal progress
 router.get('/:id', (req, res) => {
   const { id } = req.params;
