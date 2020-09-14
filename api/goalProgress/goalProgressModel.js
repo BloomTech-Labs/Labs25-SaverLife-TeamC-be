@@ -14,10 +14,10 @@ function getGoalProgressById(id) {
 }
 
 // get goal progress by profile id
-function findGoalProgressByProfileId(profile_id){
+function findGoalProgressByProfileId(profile_id) {
   return db('goal_progress')
-  .join('profiles', 'profiles.id', '=', 'goal_progress.profileId')
-  .where({profileId: profile_id})
+    .join('profiles', 'profiles.id', '=', 'goal_progress.profileId')
+    .where({ profileId: profile_id });
 }
 
 // create a new goal progress
