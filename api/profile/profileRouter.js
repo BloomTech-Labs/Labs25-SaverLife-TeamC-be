@@ -1,3 +1,4 @@
+const axios = require('axios');
 const express = require('express');
 const authRequired = require('../middleware/authRequired');
 const Profiles = require('./profileModel');
@@ -291,4 +292,25 @@ router.delete('/:id', authRequired, (req, res) => {
     });
 });
 
+const body = {
+  user_id: '147254',
+  graph_type: 'TransactionbyMonth',
+};
+router.get('/fetching/transactions', (req, res) => {
+  axios
+    .post(
+      'http://saverlife-c.eba-swb5qwdy.us-east-1.elasticbeanstalk.com/dev/requestvisual',
+      body
+    )
+    .then((response) => {
+      console.log(response);
+      res.status(200).json({ message: response });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
+});
 module.exports = router;
