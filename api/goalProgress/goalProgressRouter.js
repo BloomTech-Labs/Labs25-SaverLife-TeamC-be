@@ -24,6 +24,46 @@ router.post('/', (req, res) => {
     });
 });
 
+// get goal progress by profile id
+router.get('/profile/:profileId', (req, res) => {
+  const { profileId } = req.params;
+  GoalProgress.findGoalProgressByProfileId(profileId)
+    .then((goalprogress) => {
+      if (goalprogress.length > 0) {
+        res.status(200).json(goalprogress);
+      } else {
+        res
+          .status(404)
+          .json({ message: 'Sorry, could not find user with given id' });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        error: err.message,
+      });
+    });
+});
+
+// get total saved for a specific user
+router.get('/profile/totalSaved/:profileId', (req, res) => {
+  const { profileId } = req.params;
+  GoalProgress.getTotalSaved(profileId)
+    .then((totalSaved) => {
+      if (totalSaved) {
+        res.status(200).json(totalSaved);
+      } else {
+        res.status(404).json({
+          message: 'Sorry, could not find a goal progress for this user',
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        error: err.message,
+      });
+    });
+});
+
 // get a specific goal progress
 router.get('/:id', (req, res) => {
   const { id } = req.params;
@@ -38,7 +78,7 @@ router.get('/:id', (req, res) => {
       }
     })
     .catch((err) => {
-      res.status(500).json({ message: err });
+      res.status(500).json({ error: err });
     });
 });
 
@@ -60,7 +100,7 @@ router.put('/:id', (req, res) => {
     .catch(() => {
       res
         .status(500)
-        .json({ message: 'Sorry, could not update this Goal Progress' });
+        .json({ error: 'Sorry, could not update this Goal Progress' });
     });
 });
 
@@ -79,9 +119,7 @@ router.delete('/:id', (req, res) => {
       }
     })
     .catch(() => {
-      res
-        .status(500)
-        .json({ message: 'Sorry, could not delete Goal Progress' });
+      res.status(500).json({ error: 'Sorry, could not delete Goal Progress' });
     });
 });
 
