@@ -37,7 +37,7 @@ exports.up = (knex) => {
       table.increments();
       table.string('profileId').references('id').inTable('profiles');
       table.decimal('singleAmount');
-      table.date('totalSavedDate');
+      table.date('singleAmountAddedDate');
     });
 };
 
