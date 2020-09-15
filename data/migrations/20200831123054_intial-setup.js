@@ -36,8 +36,8 @@ exports.up = (knex) => {
     .createTable('goal_progress', function (table) {
       table.increments();
       table.string('profileId').references('id').inTable('profiles');
-      table.decimal('totalSaved');
-      table.date('totalSavedDate');
+      table.decimal('singleAmount');
+      table.date('singleAmountAddedDate');
     });
 };
 
