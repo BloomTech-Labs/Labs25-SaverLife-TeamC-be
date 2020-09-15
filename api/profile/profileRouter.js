@@ -1,3 +1,4 @@
+const axios = require('axios')
 const express = require('express');
 const authRequired = require('../middleware/authRequired');
 const Profiles = require('./profileModel');
@@ -108,7 +109,7 @@ router.put('/:id', authRequired, function (req, res) {
  *      404:
  *        description: 'Profile not found'
  */
-router.get('/:id', authRequired, function (req, res) {
+router.get('/:id', function (req, res) {
   const id = String(req.params.id);
   Profiles.findById(id)
     .then((profile) => {
@@ -291,4 +292,19 @@ router.delete('/:id', authRequired, (req, res) => {
     });
 });
 
+const body = {
+  user_id:"147254",
+  graph_type:"TransactionbyMonth",
+}
+router.get('/fetching/transactions', (req, res)=>{
+  axios.post('http://saverlife-c.eba-swb5qwdy.us-east-1.elasticbeanstalk.com/dev/requestvisual',body)
+  .then(response =>{
+    res.status(200).json({message: response})
+  }).catch((err)=>{
+    console.log(err)
+    res.status(500).json({
+      message: err
+    })
+  })
+})
 module.exports = router;
