@@ -52,11 +52,9 @@ router.get('/profile/totalSaved/:profileId', (req, res) => {
       if (totalSaved) {
         res.status(200).json(totalSaved);
       } else {
-        res
-          .status(404)
-          .json({
-            message: 'Sorry, could not find a goal progress for this user',
-          });
+        res.status(404).json({
+          message: 'Sorry, could not find a goal progress for this user',
+        });
       }
     })
     .catch((err) => {

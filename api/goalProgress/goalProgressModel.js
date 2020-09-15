@@ -6,7 +6,7 @@ module.exports = {
   addGoalProgress,
   editGoalProgress,
   deleteGoalProgress,
-  getTotalSaved
+  getTotalSaved,
 };
 
 // get goal progress by id
