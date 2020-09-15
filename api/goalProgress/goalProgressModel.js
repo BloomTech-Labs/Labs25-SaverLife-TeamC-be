@@ -2,6 +2,7 @@ const db = require('../../data/db-config');
 
 module.exports = {
   getGoalProgressById,
+  findGoalProgressByProfileId,
   addGoalProgress,
   editGoalProgress,
   deleteGoalProgress,
@@ -10,6 +11,13 @@ module.exports = {
 // get goal progress by id
 function getGoalProgressById(id) {
   return db('goal_progress').where({ id }).first();
+}
+
+// get goal progress by profile id
+function findGoalProgressByProfileId(profile_id) {
+  return db('goal_progress')
+    .join('profiles', 'profiles.id', '=', 'goal_progress.profileId')
+    .where({ profileId: profile_id });
 }
 
 // create a new goal progress

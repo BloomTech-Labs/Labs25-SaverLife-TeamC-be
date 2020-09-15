@@ -30,7 +30,7 @@ router.get('/:id', (req, res) => {
   const { id } = req.params;
   Transaction.findTransactionById(id)
     .then((transaction) => {
-      if (transaction.length > 0) {
+      if (transaction) {
         res.status(200).json(transaction);
       } else {
         res
