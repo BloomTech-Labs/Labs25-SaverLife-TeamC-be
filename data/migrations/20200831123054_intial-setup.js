@@ -3,6 +3,7 @@ exports.up = (knex) => {
     .raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')
     .createTable('profiles', function (table) {
       table.string('id').notNullable().unique().primary();
+      table.integer('ds_user_id').unique();
       table.string('email');
       table.string('name');
       table.string('avatarUrl');

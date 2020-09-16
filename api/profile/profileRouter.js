@@ -292,19 +292,33 @@ router.delete('/:id', authRequired, (req, res) => {
     });
 });
 
+// getting transactions from ds end point
 const body = {
   user_id: '147254',
-  graph_type: 'TransactionbyMonth',
+  graph_type: 'TransactionTable',
 };
-router.get('/fetching/transactions', (req, res) => {
+router.get('/fetching/transactions/:id', (req, res) => {
+  const {id} = req.params
   axios
     .post(
       'http://saverlife-c.eba-swb5qwdy.us-east-1.elasticbeanstalk.com/dev/requestvisual',
       body
     )
     .then((response) => {
-      console.log(response);
-      res.status(200).json({ message: response });
+      let dataJson = JSON.parse(response.data)
+      //console.log('datajson[0].cells.value ', dataJson.data[0].cells.values[0][1])
+      
+      for(let i = 0; i<10; i++){
+        let transactionBody = {
+          profileId: id,
+          categoryId: 2,
+          amount: dataJson.data[0].cells.values[1][i],
+          merchant: dataJson.data[0].cells.values[2][i],
+          date: dataJson.data[0].cells.values[0][i]
+        }
+        axios.post('http://localhost:8000/api/transactions/', transactionBody)
+      }
+      res.status(200).json({ message: 'transaction data successful' });
     })
     .catch((err) => {
       console.log(err);
@@ -313,4 +327,5 @@ router.get('/fetching/transactions', (req, res) => {
       });
     });
 });
+
 module.exports = router;
