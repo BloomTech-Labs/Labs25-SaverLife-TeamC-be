@@ -2,6 +2,7 @@ const db = require('../../data/db-config');
 
 module.exports = {
   getCategoryById,
+  getCategoryByName,
   addCategory,
   updateCategory,
   deleteCategory,
@@ -11,6 +12,10 @@ module.exports = {
 
 function getCategoryById(id) {
   return db.select('*').from('categories').where({ id });
+}
+
+function getCategoryByName(inputName){
+  return db.select('id').from('categories').where({name: inputName})
 }
 
 //allow a user to read all budget lines by budget id

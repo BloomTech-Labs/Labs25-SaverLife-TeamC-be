@@ -4,6 +4,11 @@ const authRequired = require('../middleware/authRequired');
 const Profiles = require('./profileModel');
 const router = express.Router();
 
+//
+const Transaction = require('../transaction/transactionModel');
+const Categories = require('../categories/categoriesModel');
+//
+
 /**
  * @swagger
  * components:
@@ -109,7 +114,7 @@ router.put('/:id', authRequired, function (req, res) {
  *      404:
  *        description: 'Profile not found'
  */
-router.get('/:id', authRequired, function (req, res) {
+router.get('/:id', function (req, res) {
   const id = String(req.params.id);
   Profiles.findById(id)
     .then((profile) => {
@@ -292,40 +297,40 @@ router.delete('/:id', authRequired, (req, res) => {
     });
 });
 
-// getting transactions from ds end point
-const body = {
-  user_id: '147254',
-  graph_type: 'TransactionTable',
-};
-router.get('/fetching/transactions/:id', (req, res) => {
-  const {id} = req.params
-  axios
-    .post(
-      'http://saverlife-c.eba-swb5qwdy.us-east-1.elasticbeanstalk.com/dev/requestvisual',
-      body
-    )
-    .then((response) => {
-      let dataJson = JSON.parse(response.data)
-      //console.log('datajson[0].cells.value ', dataJson.data[0].cells.values[0][1])
-      
-      for(let i = 0; i<10; i++){
-        let transactionBody = {
-          profileId: id,
-          categoryId: 2,
-          amount: dataJson.data[0].cells.values[1][i],
-          merchant: dataJson.data[0].cells.values[2][i],
-          date: dataJson.data[0].cells.values[0][i]
+// get data from data science team, import them into transactions table.
+router.get('/fetching/transactions/:profileId', (req, res) => {
+  const {profileId} = req.params
+  Transaction.findTransactionByProfileId(profileId).then(response=>{
+    if(response.length > 0){
+      res.status(200).json({message: 'Transaction data already exist'})
+    } else {
+      Profiles.findById(profileId).then(profile=>{
+        let ds_body = {
+          user_id: profile.ds_user_id,
+          graph_type: 'TransactionTable'
         }
-        axios.post('http://localhost:8000/api/transactions/', transactionBody)
-      }
-      res.status(200).json({ message: 'transaction data successful' });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({
-        error: err,
-      });
-    });
-});
+        axios.post('http://saverlife-c.eba-swb5qwdy.us-east-1.elasticbeanstalk.com/dev/requestvisual',ds_body).then(DSResponse=>{
+          let dataJson = JSON.parse(DSResponse.data)
+          for (let i=0; i<50; i++){
+            Categories.getCategoryByName(dataJson.data[0].cells.values[2][i]).then(categoriesRes=>{
+              let transactionBody = {
+                profileId: profileId,
+                categoryId: categoriesRes[0].id,
+                amount: dataJson.data[0].cells.values[1][i],
+                merchant: dataJson.data[0].cells.values[2][i],
+                date: dataJson.data[0].cells.values[0][i]
+              }
+              Transaction.addTransaction(transactionBody)
+            })
+          }
+          res.status(200).json({message: 'Successfully created transactions'})
+        }).catch(err=>{
+          console.log(err)
+          res.status(500).json({error: err})
+        })
+      })
+    }
+  })
+})
 
 module.exports = router;

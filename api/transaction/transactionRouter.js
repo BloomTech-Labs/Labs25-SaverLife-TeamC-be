@@ -51,7 +51,7 @@ router.get('/profile/:profileId', (req, res) => {
   const { profileId } = req.params;
   Transaction.findTransactionByProfileId(profileId)
     .then((transactions) => {
-      if (transactions.length > 0) {
+      if (transactions) {
         res.status(200).json(transactions);
       } else {
         res.status(404).json({ message: 'Could not find user with given id' });

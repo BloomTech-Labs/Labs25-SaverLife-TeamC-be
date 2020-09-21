@@ -37,7 +37,6 @@ module.exports = {
   findBy,
   findById,
   findByEmail,
-  findDS_user_id,
   create,
   update,
   remove,
