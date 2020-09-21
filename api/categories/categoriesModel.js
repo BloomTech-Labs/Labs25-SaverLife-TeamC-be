@@ -14,8 +14,8 @@ function getCategoryById(id) {
   return db.select('*').from('categories').where({ id });
 }
 
-function getCategoryByName(inputName){
-  return db.select('id').from('categories').where({name: inputName})
+function getCategoryByName(inputName) {
+  return db.select('id').from('categories').where({ name: inputName });
 }
 
 //allow a user to read all budget lines by budget id

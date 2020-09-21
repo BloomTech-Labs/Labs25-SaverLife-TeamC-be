@@ -299,38 +299,52 @@ router.delete('/:id', authRequired, (req, res) => {
 
 // get data from data science team, import them into transactions table.
 router.get('/fetching/transactions/:profileId', (req, res) => {
-  const {profileId} = req.params
-  Transaction.findTransactionByProfileId(profileId).then(response=>{
-    if(response.length > 0){
-      res.status(200).json({message: 'Transaction data already exist'})
+  const { profileId } = req.params;
+  Transaction.findTransactionByProfileId(profileId).then((response) => {
+    // check if transaction data already exists
+    if (response.length > 0) {
+      res.status(200).json({ message: 'Transaction data already exist' });
     } else {
-      Profiles.findById(profileId).then(profile=>{
+      Profiles.findById(profileId).then((profile) => {
+        // get ds_user_id from profile table
         let ds_body = {
           user_id: profile.ds_user_id,
-          graph_type: 'TransactionTable'
-        }
-        axios.post('http://saverlife-c.eba-swb5qwdy.us-east-1.elasticbeanstalk.com/dev/requestvisual',ds_body).then(DSResponse=>{
-          let dataJson = JSON.parse(DSResponse.data)
-          for (let i=0; i<50; i++){
-            Categories.getCategoryByName(dataJson.data[0].cells.values[2][i]).then(categoriesRes=>{
-              let transactionBody = {
-                profileId: profileId,
-                categoryId: categoriesRes[0].id,
-                amount: dataJson.data[0].cells.values[1][i],
-                merchant: dataJson.data[0].cells.values[2][i],
-                date: dataJson.data[0].cells.values[0][i]
-              }
-              Transaction.addTransaction(transactionBody)
-            })
-          }
-          res.status(200).json({message: 'Successfully created transactions'})
-        }).catch(err=>{
-          console.log(err)
-          res.status(500).json({error: err})
-        })
-      })
+          graph_type: 'TransactionTable',
+        };
+        axios // connect with ds
+          .post(
+            'http://saverlife-c.eba-swb5qwdy.us-east-1.elasticbeanstalk.com/dev/requestvisual',
+            ds_body
+          )
+          .then((DSResponse) => {
+            let dataJson = JSON.parse(DSResponse.data); // change data into json
+            for (let i = 0; i < 20; i++) {
+              // do a loop to start inserting the data, (20 for now)
+              Categories.getCategoryByName(
+                dataJson.data[0].cells.values[2][i] // find category id
+              ).then((categoriesRes) => {
+                let transactionBody = {
+                  // transaction body to insert into transaction table
+                  profileId: profileId,
+                  categoryId: categoriesRes[0].id,
+                  amount: dataJson.data[0].cells.values[1][i],
+                  merchant: dataJson.data[0].cells.values[2][i],
+                  date: dataJson.data[0].cells.values[0][i],
+                };
+                Transaction.addTransaction(transactionBody); // finally inserting into transaction table
+              });
+            }
+            res
+              .status(200)
+              .json({ message: 'Successfully created transactions' });
+          })
+          .catch((err) => {
+            console.log(err);
+            res.status(500).json({ error: err });
+          });
+      });
     }
-  })
-})
+  });
+});
 
 module.exports = router;
