@@ -54,6 +54,19 @@ router.get('/:id', (req, res) => {
     });
 });
 
+// find category id by category name
+router.get('/name/:id', (req, res) => {
+  const { id } = req.params;
+  Categories.getCategoryByName(id)
+    .then((ret) => {
+      res.status(200).json(ret);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(404).json({ message: 'Could not find category by that name' });
+    });
+});
+
 //allow a user to create a category
 router.post('/', (req, res) => {
   const data = req.body;
