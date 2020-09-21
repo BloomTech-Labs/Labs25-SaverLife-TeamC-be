@@ -22,12 +22,16 @@ router.get('/graph', (req, res) => {
     .then((response) => {
       const obj = JSON.parse(response.data);
       obj.data.forEach((d, j) => {
+        let xs = [];
+        let ys = [];
         d.x.forEach((amount, i) => {
-          if (amount < 0) {
-            obj.data[j].x.splice(i, 1);
-            obj.data[j].y.splice(i, 1);
+          if (amount > 0) {
+            xs.push(amount);
+            ys.push(obj.data[j].y[i]);
           }
         });
+        obj.data[j].x = xs;
+        obj.data[j].y = ys;
       });
       res.status(200).json(obj);
     })
