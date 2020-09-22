@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 const Transaction = require('./transactionModel');
 const { isValidTransaction } = require('./transactionService');
+const authRequired = require('../middleware/authRequired');
 
 // create transaction
-router.post('/', (req, res) => {
+router.post('/', authRequired, (req, res) => {
   const transactionData = req.body;
   if (isValidTransaction(transactionData)) {
     Transaction.addTransaction(transactionData)
@@ -26,7 +27,7 @@ router.post('/', (req, res) => {
 });
 
 // read transaction by given transaction id
-router.get('/:id', (req, res) => {
+router.get('/:id', authRequired, (req, res) => {
   const { id } = req.params;
   Transaction.findTransactionById(id)
     .then((transaction) => {
@@ -47,7 +48,7 @@ router.get('/:id', (req, res) => {
 });
 
 // find all transaction with given profile id
-router.get('/profile/:profileId', (req, res) => {
+router.get('/profile/:profileId', authRequired, (req, res) => {
   const { profileId } = req.params;
   Transaction.findTransactionByProfileId(profileId)
     .then((transactions) => {
@@ -66,7 +67,7 @@ router.get('/profile/:profileId', (req, res) => {
 });
 
 // update transaction
-router.put('/:id', (req, res) => {
+router.put('/:id', authRequired, (req, res) => {
   const { id } = req.params;
   const changes = req.body;
 

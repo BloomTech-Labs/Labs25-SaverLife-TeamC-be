@@ -1,5 +1,5 @@
 const express = require('express');
-
+const authRequired = require('../middleware/authRequired');
 const BudgetCategories = require('./budgetCategoriesModel');
 const router = express.Router();
 
@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
 });
 
 //allow a user to read a specific budget line
-router.get('/:id', (req, res) => {
+router.get('/:id', authRequired, (req, res) => {
   const { id } = req.params;
   BudgetCategories.getLineById(id)
     .then((ret) => {
@@ -22,7 +22,7 @@ router.get('/:id', (req, res) => {
 });
 
 // //allow a user to read all budget lines by budget id
-router.get('/budgets/:budgetId', (req, res) => {
+router.get('/budgets/:budgetId', authRequired, (req, res) => {
   const { budgetId } = req.params;
   BudgetCategories.getAllByBudget(budgetId)
     .then((ret) => {
@@ -34,7 +34,7 @@ router.get('/budgets/:budgetId', (req, res) => {
 });
 
 //allow a user to create a budget line
-router.post('/', (req, res) => {
+router.post('/', authRequired, (req, res) => {
   const lineData = req.body;
 
   // does not return the id of the newly created entry
@@ -48,7 +48,7 @@ router.post('/', (req, res) => {
 });
 
 // //update a given line
-router.put('/:id', (req, res) => {
+router.put('/:id', authRequired, (req, res) => {
   const { id } = req.params;
   const changes = req.body;
 
@@ -68,7 +68,7 @@ router.put('/:id', (req, res) => {
 });
 
 // //delete a budget line
-router.delete('/:id', (req, res) => {
+router.delete('/:id', authRequired, (req, res) => {
   const { id } = req.params;
 
   BudgetCategories.deleteLine(id)
