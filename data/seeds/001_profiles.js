@@ -1,9 +1,7 @@
 const faker = require('faker');
-let arr = [45153, 54068, 32477, 54150, 54234];
 
 const profiles = [...new Array(5)].map((i, idx) => ({
   id: idx === 0 ? '00ulthapbErVUwVJy4x6' : faker.random.alphaNumeric(20),
-  ds_user_id: arr[faker.random.number(4)],
   avatarUrl: faker.image.avatar(),
   email: idx === 0 ? 'llama001@maildrop.cc"' : faker.internet.email(),
   name:
@@ -11,6 +9,12 @@ const profiles = [...new Array(5)].map((i, idx) => ({
       ? 'Test001 User'
       : `${faker.name.firstName()} ${faker.name.lastName()}`,
 }));
+profiles[0].ds_user_id = 45153
+profiles[1].ds_user_id = 54068
+profiles[2].ds_user_id = 32477
+profiles[3].ds_user_id = 54150
+profiles[4].ds_user_id = 54234
+
 
 exports.seed = function (knex) {
   // Deletes ALL existing entries
