@@ -10,6 +10,11 @@ exports.up = (knex) => {
       table.timestamps(true, true);
       table.integer('goalAmount');
       table.date('goalStartDate');
+      table.integer('goalEndYear');
+      table.integer('goalEndMonth');
+      table.integer('monthLeft');
+      table.integer('nextMonthForcast');
+      table.integer('suggestBudget');
     })
     .createTable('categories', function (table) {
       table.increments();
