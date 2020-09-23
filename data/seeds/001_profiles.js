@@ -1,7 +1,5 @@
 const faker = require('faker');
-let arr = [
-  45153, 54068, 32477, 54150, 54234
-];
+let arr = [45153, 54068, 32477, 54150, 54234];
 
 const profiles = [...new Array(5)].map((i, idx) => ({
   id: idx === 0 ? '00ulthapbErVUwVJy4x6' : faker.random.alphaNumeric(20),
