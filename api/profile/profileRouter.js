@@ -1,6 +1,6 @@
 const axios = require('axios');
 const express = require('express');
-const authRequired = require('../middleware/authRequired');
+//const authRequired = require('../middleware/authRequired');
 const Profiles = require('./profileModel');
 const router = express.Router();
 
