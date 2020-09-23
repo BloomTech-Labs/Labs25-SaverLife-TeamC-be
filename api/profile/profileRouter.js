@@ -352,9 +352,9 @@ router.get('/fetching/budget/:profileId', (req, res) => {
   Profiles.findById(profileId).then((profile) => {
     let dsBody = {
       dsUserId: profile.ds_user_id,
-      endYear: 2021,
-      endMonth: 8,
-      goal: 500,
+      endYear: profile.goalEndYear,
+      endMonth: profile.goalEndMonth,
+      goal: profile.goalAmount,
     };
     axios
       .get(
