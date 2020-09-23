@@ -308,7 +308,7 @@ router.get('/fetching/transactions/:profileId', (req, res) => {
       Profiles.findById(profileId).then((profile) => {
         // get ds_user_id from profile table
         let ds_body = {
-          user_id: profile.ds_user_id,
+          user_id: 1974,
           graph_type: 'TransactionTable',
         };
         axios // connect with ds
@@ -344,6 +344,32 @@ router.get('/fetching/transactions/:profileId', (req, res) => {
           });
       });
     }
+  });
+});
+
+router.get('/fetching/budget/:profileId', (req, res) => {
+  const { profileId } = req.params;
+  Profiles.findById(profileId).then((profile) => {
+    let dsBody = {
+      dsUserId: profile.ds_user_id,
+      endYear: profile.goalEndYear,
+      endMonth: profile.goalEndMonth,
+      goal: profile.goalAmount,
+    };
+    axios
+      .get(
+        `http://saverlife-c.eba-swb5qwdy.us-east-1.elasticbeanstalk.com/dev/forecast/statement/?user_id=${dsBody.dsUserId}&end_year=${dsBody.endYear}&end_month=${dsBody.endMonth}&goal=${dsBody.goal}`
+      )
+      .then((budget) => {
+        let inputBody = {
+          monthLeft: budget.data.months_from_today_to_reach_savings_goal,
+          nextMonthForcast: budget.data.next_month_transactions_forecast_sum,
+          suggestBudget: budget.data.suggested_monthly_savings_rate,
+        };
+        Profiles.update(profileId, inputBody).then((response) => {
+          res.status(201).json(response);
+        });
+      });
   });
 });
 
