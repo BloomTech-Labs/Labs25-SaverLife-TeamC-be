@@ -308,7 +308,7 @@ router.get('/fetching/transactions/:profileId', (req, res) => {
       Profiles.findById(profileId).then((profile) => {
         // get ds_user_id from profile table
         let ds_body = {
-          user_id: 1974,
+          user_id: profile.ds_user_id,
           graph_type: 'TransactionTable',
         };
         axios // connect with ds
