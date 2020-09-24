@@ -6,6 +6,10 @@ const transactionRouter = require('../../api/transaction/transactionRouter');
 
 jest.mock('../../api/transaction/transactionModel');
 
+jest.mock('../../api/middleware/authRequired', () =>
+  jest.fn((req, res, next) => next())
+);
+
 describe('transactionRouter', () => {
   beforeAll(() => {
     server.use(['/api/transactions'], transactionRouter);
