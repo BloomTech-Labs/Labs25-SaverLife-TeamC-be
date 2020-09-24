@@ -1,47 +1,57 @@
+### SaverLife Infomercial 👇
+https://youtu.be/VTn3yK6lOGk
+
+
 # Documentation 👇
 
 ## /api/profiles
 | Request | URL | Description |
 | ------- | --- | ----------- |
-| GET | api/profiles/:id | get a specific users profile |
-| PUT | api/profile/:id | update a specific users profile |
+| GET | api/profiles/:id | get a specific profile |
+| POST | api/profile | create a new profile |
+| PUT | api/profile/:id | update profile by id |
+| PUT | api/profile | update a profile |
+| DELETE | api/profile/:id | delete a specific profile |
 
 
 ## /api/transactions
 | Request | URL | Description |
 | ------- | --- | ----------- |
+| GET | api/transactions/:id | get transaction by id |
+| GET | api/transactions/profiles/:profileId | get all transactions for a specific user |
 | POST | api/transactions/ | create a new transaction |
-| GET | api/transactions/:id | get a specific transaction |
-| GET | api/transactions/profiles/:profileId | get a specific users single transaction |
-| PUT | api/transactions/:id | edit a specific transaction |
+| PUT | api/transactions/:id | update transaction by id |
 | DELETE | api/transactions/:id | delete a specific transaction |
 
 
 ## /api/goalprogress
 | Request | URL | Description |
 | ------- | --- | ----------- |
+| GET | api/goalprogress/profile/:profileId | get goalprogress by profile id |
+| GET | api/goalprogress/profile/totalSaved/:profileId | get total saved by profile id |
+| GET | api/goalprogress/:id | get goalprogress by id |
 | POST | api/goalprogress/ | create a new goalprogress |
-| GET | api/goalprogress/:id | get a specific goalprogress |
-| PUT | api/goalprogress/:id | edit a specific goalprogress |
+| PUT | api/goalprogress/:id | update goal progress by id |
 | DELETE | api/goalprogress/:id | delete a specific goalprogress |
 
 
 ## /api/budget
 | Request | URL | Description |
 | ------- | --- | ----------- |
+| GET | api/budget/:id | get budget by id |
 | POST | api/budget/ | create a new budget |
-| GET | api/budget/:id | get a specific budget |
-| PUT | api/budget/:id | edit a specific budget |
+| PUT | api/budget/:id | update budget by id |
 | DELETE | api/budget/:id | delete a specific budget |
 
 
 ## /api/budgetcategories (budget line items)
 | Request | URL | Description |
 | ------- | --- | ----------- |
-| POST | api/budgetcategories/ | create a new budgetcategories item |
-| GET | api/budgetcategories/:id | get a specific budgetcategories item |
-| PUT | api/budgetcategories/:id | edit a specific budgetcategories item |
-| DELETE | api/budgetcategories/:id | delete a specific budgetcategories item |
+| GET | api/budgetcategories/:id | get a budget category by id |
+| GET | api/budgetcategories/budgets/:budgetId | get all budget categories by budget id |
+| POST | api/budgetcategories/ | create a new budget category line |
+| PUT | api/budgetcategories/:id | update budget category by id |
+| DELETE | api/budgetcategories/:id | delete a specific budget category line |
 
 
 # Table Requirements 👇
