@@ -1,7 +1,13 @@
+const axios = require('axios');
 const express = require('express');
-const authRequired = require('../middleware/authRequired');
+//const authRequired = require('../middleware/authRequired');
 const Profiles = require('./profileModel');
 const router = express.Router();
+
+//
+const Transaction = require('../transaction/transactionModel');
+const Categories = require('../categories/categoriesModel');
+//
 
 /**
  * @swagger
@@ -63,7 +69,7 @@ const router = express.Router();
  *        $ref: '#/components/responses/UnauthorizedError'
  */
 
-router.put('/:id', authRequired, function (req, res) {
+router.put('/:id', function (req, res) {
   Profiles.update(req.params.id, req.body)
     .then((profile) => {
       res.status(200).json(profile);
@@ -108,7 +114,7 @@ router.put('/:id', authRequired, function (req, res) {
  *      404:
  *        description: 'Profile not found'
  */
-router.get('/:id', authRequired, function (req, res) {
+router.get('/:id', function (req, res) {
   const id = String(req.params.id);
   Profiles.findById(id)
     .then((profile) => {
@@ -159,7 +165,7 @@ router.get('/:id', authRequired, function (req, res) {
  *                profile:
  *                  $ref: '#/components/schemas/Profile'
  */
-router.post('/', authRequired, async (req, res) => {
+router.post('/', async (req, res) => {
   const profile = req.body;
   if (profile) {
     const id = profile.id || 0;
@@ -218,7 +224,7 @@ router.post('/', authRequired, async (req, res) => {
  *                profile:
  *                  $ref: '#/components/schemas/Profile'
  */
-router.put('/', authRequired, (req, res) => {
+router.put('/', (req, res) => {
   const profile = req.body;
   if (profile) {
     const id = profile.id || 0;
@@ -275,7 +281,7 @@ router.put('/', authRequired, (req, res) => {
  *                profile:
  *                  $ref: '#/components/schemas/Profile'
  */
-router.delete('/:id', authRequired, (req, res) => {
+router.delete('/:id', (req, res) => {
   const id = req.params.id;
   Profiles.remove(id)
     .then((deleted) => {
@@ -289,6 +295,82 @@ router.delete('/:id', authRequired, (req, res) => {
         error: err.message,
       });
     });
+});
+
+// get data from data science team, import them into transactions table.
+router.get('/fetching/transactions/:profileId', (req, res) => {
+  const { profileId } = req.params;
+  Transaction.findTransactionByProfileId(profileId).then((response) => {
+    // check if transaction data already exists
+    if (response.length > 0) {
+      res.status(200).json({ message: 'Transaction data already exist' });
+    } else {
+      Profiles.findById(profileId).then((profile) => {
+        // get ds_user_id from profile table
+        let ds_body = {
+          user_id: profile.ds_user_id,
+          graph_type: 'TransactionTable',
+        };
+        axios // connect with ds
+          .post(
+            'http://saverlife-c.eba-swb5qwdy.us-east-1.elasticbeanstalk.com/dev/requestvisual',
+            ds_body
+          )
+          .then((DSResponse) => {
+            let dataJson = JSON.parse(DSResponse.data); // change data into json
+            for (let i = 0; i < 20; i++) {
+              // do a loop to start inserting the data, (20 for now)
+              Categories.getCategoryByName(
+                dataJson.data[0].cells.values[2][i] // find category id
+              ).then((categoriesRes) => {
+                let transactionBody = {
+                  // transaction body to insert into transaction table
+                  profileId: profileId,
+                  categoryId: categoriesRes[0].id,
+                  amount: dataJson.data[0].cells.values[1][i],
+                  merchant: dataJson.data[0].cells.values[2][i],
+                  date: dataJson.data[0].cells.values[0][i],
+                };
+                Transaction.addTransaction(transactionBody); // finally inserting into transaction table
+              });
+            }
+            res
+              .status(200)
+              .json({ message: 'Successfully created transactions' });
+          })
+          .catch((err) => {
+            console.log(err);
+            res.status(500).json({ error: err });
+          });
+      });
+    }
+  });
+});
+
+router.get('/fetching/budget/:profileId', (req, res) => {
+  const { profileId } = req.params;
+  Profiles.findById(profileId).then((profile) => {
+    let dsBody = {
+      dsUserId: profile.ds_user_id,
+      endYear: profile.goalEndYear,
+      endMonth: profile.goalEndMonth,
+      goal: profile.goalAmount,
+    };
+    axios
+      .get(
+        `http://saverlife-c.eba-swb5qwdy.us-east-1.elasticbeanstalk.com/dev/forecast/statement/?user_id=${dsBody.dsUserId}&end_year=${dsBody.endYear}&end_month=${dsBody.endMonth}&goal=${dsBody.goal}`
+      )
+      .then((budget) => {
+        let inputBody = {
+          monthLeft: budget.data.months_from_today_to_reach_savings_goal,
+          nextMonthForcast: budget.data.next_month_transactions_forecast_sum,
+          suggestBudget: budget.data.suggested_monthly_savings_rate,
+        };
+        Profiles.update(profileId, inputBody).then((response) => {
+          res.status(201).json(response);
+        });
+      });
+  });
 });
 
 module.exports = router;
