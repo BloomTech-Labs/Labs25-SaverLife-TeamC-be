@@ -1,6 +1,6 @@
 const axios = require('axios');
 const express = require('express');
-//const authRequired = require('../middleware/authRequired');
+const authRequired = require('../middleware/authRequired');
 const Profiles = require('./profileModel');
 const router = express.Router();
 
@@ -298,7 +298,7 @@ router.delete('/:id', (req, res) => {
 });
 
 // get data from data science team, import them into transactions table.
-router.get('/fetching/transactions/:profileId', (req, res) => {
+router.get('/fetching/transactions/:profileId', authRequired, (req, res) => {
   const { profileId } = req.params;
   Transaction.findTransactionByProfileId(profileId).then((response) => {
     // check if transaction data already exists

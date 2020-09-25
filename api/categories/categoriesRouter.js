@@ -1,15 +1,16 @@
 const express = require('express');
 const axios = require('axios');
 const Categories = require('./categoriesModel.js');
+const authRequired = require('../middleware/authRequired');
 const router = express.Router();
 
-router.get('/', (req, res) => {
+router.get('/', authRequired, (req, res) => {
   res.status(200).json({
     message: 'Try asking for the id of the category id you would like',
   });
 });
 
-router.get('/graph', (req, res) => {
+router.get('/graph', authRequired, (req, res) => {
   const body = {
     user_id: '147254',
     graph_type: 'CategoryBarMonth',
@@ -43,7 +44,7 @@ router.get('/graph', (req, res) => {
 });
 
 //allow a user to read a specific category
-router.get('/:id', (req, res) => {
+router.get('/:id', authRequired, (req, res) => {
   const { id } = req.params;
   Categories.getCategoryById(id)
     .then((ret) => {
@@ -55,7 +56,7 @@ router.get('/:id', (req, res) => {
 });
 
 // find category id by category name
-router.get('/name/:id', (req, res) => {
+router.get('/name/:id', authRequired, (req, res) => {
   const { id } = req.params;
   Categories.getCategoryByName(id)
     .then((ret) => {
@@ -68,7 +69,7 @@ router.get('/name/:id', (req, res) => {
 });
 
 //allow a user to create a category
-router.post('/', (req, res) => {
+router.post('/', authRequired, (req, res) => {
   const data = req.body;
 
   // does not return the id of the newly created entry

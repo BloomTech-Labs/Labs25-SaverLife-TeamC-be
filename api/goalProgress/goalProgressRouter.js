@@ -1,5 +1,5 @@
 const express = require('express');
-
+const authRequired = require('../middleware/authRequired');
 const GoalProgress = require('./goalProgressModel');
 const router = express.Router();
 
@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
 });
 
 // add a new goal progress
-router.post('/', (req, res) => {
+router.post('/', authRequired, (req, res) => {
   const gp = req.body;
 
   GoalProgress.addGoalProgress(gp)
@@ -25,7 +25,7 @@ router.post('/', (req, res) => {
 });
 
 // get goal progress by profile id
-router.get('/profile/:profileId', (req, res) => {
+router.get('/profile/:profileId', authRequired, (req, res) => {
   const { profileId } = req.params;
   GoalProgress.findGoalProgressByProfileId(profileId)
     .then((goalprogress) => {
@@ -45,7 +45,7 @@ router.get('/profile/:profileId', (req, res) => {
 });
 
 // get total saved for a specific user
-router.get('/profile/totalSaved/:profileId', (req, res) => {
+router.get('/profile/totalSaved/:profileId', authRequired, (req, res) => {
   const { profileId } = req.params;
   GoalProgress.getTotalSaved(profileId)
     .then((totalSaved) => {
@@ -65,7 +65,7 @@ router.get('/profile/totalSaved/:profileId', (req, res) => {
 });
 
 // get a specific goal progress
-router.get('/:id', (req, res) => {
+router.get('/:id', authRequired, (req, res) => {
   const { id } = req.params;
   GoalProgress.getGoalProgressById(id)
     .then((goal) => {
